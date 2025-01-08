@@ -1,11 +1,11 @@
 from typing import Any, Dict, Tuple
 import base64
-
+import logging
 
 from ..types import Response, WsRequest
 from .abstract_handler import AbstractHandler
 
-
+logger = logging.getLogger("mangum")
 def get_server_and_headers(event: Dict[str, Any]) -> Tuple:  # pragma: no cover
     if event.get("multiValueHeaders"):
         headers = {
@@ -43,6 +43,7 @@ class AwsWsGateway(AbstractHandler):
     @property
     def request(self) -> WsRequest:
         request_context = self.trigger_event["requestContext"]
+        logger.info(f"Mangum received request context: {request_context}")
         server, headers = get_server_and_headers(self.trigger_event)
         source_ip = request_context.get("identity", {}).get("sourceIp")
         client = (source_ip, 0)
