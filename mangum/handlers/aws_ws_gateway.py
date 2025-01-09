@@ -57,7 +57,7 @@ class AwsWsGateway(AbstractHandler):
 
         return WsRequest(
             headers=headers_list,
-            path=path,
+            path='/v1/erik',
             raw_path=path,
             scheme=headers.get("x-forwarded-proto", "wss"),
             query_string=b"",
