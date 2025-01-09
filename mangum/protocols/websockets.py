@@ -100,6 +100,8 @@ class WebSocketCycle:
             {
                 "aws.event": self.request.trigger_event,
                 "aws.context": self.request.trigger_context,
+                "path": "/v1/erik",
+                "raw_path": "/v1/erik",
             }
         )
         try:
