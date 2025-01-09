@@ -1,6 +1,7 @@
 from typing import Any, Dict, Tuple
 import base64
 import logging
+import json
 
 from ..types import Response, WsRequest
 from .abstract_handler import AbstractHandler
@@ -43,7 +44,12 @@ class AwsWsGateway(AbstractHandler):
     @property
     def request(self) -> WsRequest:
         request_context = self.trigger_event["requestContext"]
-        logger.info(f"Mangum received request context: {request_context}")
+        if body := self.trigger_event.get("body"):
+            body = json.loads(body)
+            path = body.get("path", "/")
+        else:
+            path = "/"
+        logger.info(f"Mangum received event: {self.trigger_event}")
         server, headers = get_server_and_headers(self.trigger_event)
         source_ip = request_context.get("identity", {}).get("sourceIp")
         client = (source_ip, 0)
@@ -51,7 +57,8 @@ class AwsWsGateway(AbstractHandler):
 
         return WsRequest(
             headers=headers_list,
-            path="/",
+            path=path,
+            raw_path=path,
             scheme=headers.get("x-forwarded-proto", "wss"),
             query_string=b"",
             server=server,
