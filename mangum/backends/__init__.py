@@ -120,7 +120,14 @@ class WebSocket:
                 "server": tuple(scope["server"]),
             }
         )
-
+        path = None
+        for h in scope["headers"]:
+            if h[0] == "path":
+                path = h[1]
+                break
+        if path:
+            scope["path"] = path
+            scope['raw_path'] = path
         return scope
 
     async def save_scope(
