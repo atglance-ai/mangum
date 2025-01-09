@@ -44,21 +44,17 @@ class AwsWsGateway(AbstractHandler):
     @property
     def request(self) -> WsRequest:
         request_context = self.trigger_event["requestContext"]
-        if body := self.trigger_event.get("body"):
-            body = json.loads(body)
-            path = body.get("path", "/")
-        else:
-            path = "/"
         logger.info(f"Mangum received event: {self.trigger_event}")
         server, headers = get_server_and_headers(self.trigger_event)
+        path = headers.get("path", "/")
         source_ip = request_context.get("identity", {}).get("sourceIp")
         client = (source_ip, 0)
         headers_list = [[k.encode(), v.encode()] for k, v in headers.items()]
 
+        logger.info(f"Mangum got path: {path}")
         return WsRequest(
             headers=headers_list,
-            path='/v1/erik',
-            raw_path=path,
+            path=path,
             scheme=headers.get("x-forwarded-proto", "wss"),
             query_string=b"",
             server=server,
