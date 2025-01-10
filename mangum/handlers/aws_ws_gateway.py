@@ -57,7 +57,7 @@ class AwsWsGateway(AbstractHandler):
         logger.info(f"Mangum got path: {path}")
         return WsRequest(
             headers=headers_list,
-            path='/hello',
+            path=path,
             scheme=headers.get("x-forwarded-proto", "wss"),
             query_string=b"",
             server=server,
