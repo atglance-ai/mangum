@@ -7,6 +7,9 @@ from ..types import Response, WsRequest
 from .abstract_handler import AbstractHandler
 
 logger = logging.getLogger("mangum")
+logger.setLevel(logging.INFO)
+
+
 def get_server_and_headers(event: Dict[str, Any]) -> Tuple:  # pragma: no cover
     if event.get("multiValueHeaders"):
         headers = {

@@ -135,9 +135,9 @@ class WebSocketCycle:
         Awaited by the application to send ASGI `websocket` events.
         """
         message_type = message["type"]
-        self.logger.info(
-            "%s:  '%s' event received from application.", self.state, message_type
-        )
+        #self.logger.info(
+        #    "%s:  '%s' event received from application.", self.state, message_type
+        #)
 
         if self.state is WebSocketCycleState.HANDSHAKE and message_type in (
             "websocket.accept",

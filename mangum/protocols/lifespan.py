@@ -125,9 +125,9 @@ class LifespanCycle:
         Awaited by the application to send ASGI `lifespan` events.
         """
         message_type = message["type"]
-        self.logger.info(
-            "%s:  '%s' event received from application.", self.state, message_type
-        )
+        #self.logger.info(
+        #    "%s:  '%s' event received from application.", self.state, message_type
+        #)
 
         if self.state is LifespanCycleState.CONNECTING:
 
